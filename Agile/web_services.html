@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title></head>
+
+<body>
+<h1>Web Services</h1>
+<hr />
+<h2>What are web services?</h2>
+<p>Web services are modular components that are made for various applications to interact with each other. They are typically made for reusability because many applications will connect to them. Typically web service messages are transferred in XML and the results are translated at the requesting application.</p>
+<p>It is easier to understand the process of web services in diagrams.</p>
+<p><img src="images/intro_ws_roles.gif" width="610" height="425" /> </p>
+<p>The Requestor application learns how to use the web service through the web service descriptor (WSD). The WSD provides the semantics for actually using the web service. Once it knows the semantics about the web service the requestor application can interact with the web service. </p>
+<h2>Components of web services</h2>
+<p>There are many different types of web services, but this course will focus on the components of SOAP messaging. </p>
+<p><strong>WSDL</strong></p>
+<p>Before an application can utilize a web service it must know a little bit about the web service. This is where the WSDL (Web Service Description Language) comes in. The WSDL lets the application know how to interface with the web service. The WSDL is written in XML and uses the following elements.</p>
+  <ul>
+    <li>Types -- a container for data type definitions using some type system        (such as XSD).</li>
+    <li>Message -- an abstract, typed definition of the data being        communicated.</li>
+    <li>Operation -- an abstract description of an action supported by the        service.</li>
+    <li>Port Type -- an abstract set of operations supported by one or more        endpoints.</li>
+    <li>Binding -- a concrete protocol and data format specification for a        particular port type.</li>
+    <li>Port -- a single endpoint defined as a combination of a binding and a        network address.</li>
+    <li>Service -- a collection of related endpoints. </li>
+</ul>
+<p>Here is an example of a WSDL for a stock quote web service</p>
+<blockquote>
+  <pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;definitions name=&quot;StockQuote&quot;
+               targetNamespace=&quot;http://example.com/stockquote.wsdl&quot;
+               xmlns:tns=&quot;http://example.com/stockquote.wsdl&quot;
+               xmlns:xsd1=&quot;http://example.com/stockquote.xsd&quot;
+               xmlns:soap=&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot;
+               xmlns=&quot;http://schemas.xmlsoap.org/wsdl/&quot;&gt;
+   &lt;types&gt;
+    &lt;schema targetNamespace=&quot;http://example.com/stockquote.xsd&quot;
+            xmlns=&quot;http://www.w3.org/1999/XMLSchema&quot;&gt; 
+     &lt;element name=&quot;TradePriceRequest&quot;&gt;
+      &lt;complexType&gt;
+       &lt;all&gt;
+        &lt;element name=&quot;tickerSymbol&quot; type=&quot;string&quot;/&gt;
+       &lt;/all&gt;
+      &lt;/complexType&gt;
+     &lt;/element&gt;
+     &lt;element name=&quot;TradePrice&quot;&gt;
+      &lt;complexType&gt;
+       &lt;all&gt;
+        &lt;element name=&quot;price&quot; type=&quot;float&quot;/&gt;
+       &lt;/all&gt;
+      &lt;/complexType&gt;
+     &lt;/element&gt;
+    &lt;/schema&gt;
+   &lt;/types&gt;
+
+  &lt;message name=&quot;GetLastTradePriceInput&quot;&gt;
+    &lt;part name=&quot;body&quot; element=&quot;xsd1:TradePriceRequest&quot;/&gt;
+  &lt;/message&gt;
+  &lt;message name=&quot;GetLastTradePriceOutput&quot;&gt;
+    &lt;part name=&quot;body&quot; element=&quot;xsd1:TradePrice&quot;/&gt;
+  &lt;/message&gt;
+
+  &lt;portType name=&quot;StockQuotePortType&quot;&gt;
+   &lt;operation name=&quot;GetLastTradePrice&quot;&gt;
+    &lt;input message=&quot;tns:GetLastTradePriceInput&quot;/&gt;
+     &lt;output message=&quot;tns:GetLastTradePriceOutput&quot;/&gt;
+   &lt;/operation&gt;
+  &lt;/portType&gt;
+  
+  &lt;binding name=&quot;StockQuoteSoapBinding&quot;
+          type=&quot;tns:StockQuotePortType&quot;&gt;
+  &lt;soap:binding style=&quot;document&quot;
+   transport=&quot;http://schemas.xmlsoap.org/soap/http&quot;/&gt;
+    &lt;operation name=&quot;GetLastTradePrice&quot;&gt;
+     &lt;soap:operation
+      soapAction=&quot;http://example.com/GetLastTradePrice&quot;/&gt;
+       &lt;input&gt;
+         &lt;soap:body use=&quot;literal&quot; 
+          namespace=&quot;http://example.com/stockquote.xsd&quot;
+          encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;/&gt;
+       &lt;/input&gt;
+      &lt;output&gt;
+       &lt;soap:body use=&quot;literal&quot; 
+         namespace=&quot;http://example.com/stockquote.xsd&quot;
+         encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;/&gt;
+      &lt;/output&gt;
+     &lt;/operation&gt;
+  &lt;/binding&gt;
+  
+  &lt;service name=&quot;StockQuoteService&quot;&gt;
+   &lt;documentation&gt;My first service&lt;/documentation&gt;
+    &lt;port name=&quot;StockQuotePort&quot; binding=&quot;tns:StockQuoteBinding&quot;&gt; 
+     &lt;soap:address location=&quot;http://example.com/stockquote&quot;/&gt;
+    &lt;/port&gt;
+  &lt;/service&gt;
+
+ &lt;/definitions&gt;
+
+  &lt;binding name=&quot;StockQuoteServiceBinding&quot;
+   type=&quot;StockQuoteServiceType&quot;&gt; 
+    &lt;soap:binding style=&quot;rpc&quot;
+     transport=&quot;http://schemas.xmlsoap.org/soap/http&quot;/&gt;
+	 &lt;operation name=&quot;getQuote&quot;&gt;  
+	  &lt;soap:operation    
+       soapAction=&quot;http://www.getquote.com/GetQuote&quot;/&gt;
+        &lt;input&gt;
+         &lt;soap:body type=&quot;InMessageRequest&quot;
+          namespace=&quot;urn:live-stock-quotes&quot;
+          encoding=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;/&gt;
+        &lt;/input&gt;
+        &lt;output&gt;
+         &lt;soap:body type=&quot;OutMessageResponse&quot;
+          encoding=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;/&gt;
+        &lt;/output&gt;
+      &lt;/operation&gt;
+    &lt;/binding&gt;
+    &lt;service name=&quot;StockQuoteService&quot;&gt;
+     &lt;documentation&gt;My first service
+	 &lt;/documentation&gt;
+      &lt;port name=&quot;StockQuotePort&quot;
+       binding=&quot;tns:StockQuoteBinding&quot;&gt;
+       &lt;soap:address location=&quot;http://example.com/stockquote&quot;/&gt;
+      &lt;/port&gt;
+     &lt;/service&gt;
+&lt;/definitions&gt;</pre>
+</blockquote>
+<p><strong>SOAP</strong></p>
+<p>Once an application knows how to utilize a web service, it can use SOAP to actually interact with the web service. SOAP, Simple Object Access Protocol, is a messaging protocol used to invoke remote web services. SOAP is normally sent through the HTTP protocol using a SOAP envelope, which contains a SOAP header and a SOAP message. </p>
+<p>When the SOAP message is recieved by the web service, the web service is run and the response is sent back to the requesting application via a SOAP message. Again, these messages are sent using the HTTP protocol, so they are similiar to web requests.</p>
+<p>Here are examples of SOAP messages for the Stock Quote Web Service.</p>
+<p><strong>Request</strong></p>
+<blockquote>
+  <pre>POST /StockQuote HTTP/1.1
+Host: www.stockquoteserver.com
+Content-Type: text/xml;
+charset=&quot;utf-8&quot;
+Content-Length: nnnn
+SOAPAction: &quot;Some-URI&quot;
+
+&lt;SOAP-ENV:Envelope
+ xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; 
+ SOAP-ENV:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;&gt; 
+   &lt;SOAP-ENV:Body&gt;
+    &lt;m:GetLastTradePrice
+     xmlns:m=&quot;Some-URI&quot;&gt;
+      &lt;symbol&gt;MOT&lt;/symbol&gt;
+    &lt;/m:GetLastTradePrice&gt;     
+   &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;</pre></blockquote>
+<p>This request is asking the web service for the last trading price of the stock MOT.</p>
+<p><strong>Response</strong></p>
+<blockquote>
+<pre>HTTP/1.1 200 OK Content-Type: text/xml; charset=&quot;utf-8&quot;
+Content-Length: nnnn
+
+&lt;SOAP-ENV:Envelope
+ xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;
+ SOAP-ENV:encodingStyle=&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;/&gt;   
+ &lt;SOAP-ENV:Body&gt;
+  &lt;m:GetLastTradePriceResponse
+   xmlns:m=&quot;Some-URI&quot;&gt;
+   &lt;Price&gt;14.5&lt;/Price&gt;
+  &lt;/m:GetLastTradePriceResponse&gt;
+ &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;</pre></blockquote>
+<p>The web service returned the price of $14.50 for the stock MOT. The application can now use the value.</p>
+<h2><strong>Why use web services? </strong></h2>
+<p>There are many benefits to using web services for serving business logic to many applications at the same time.</p>
+<ul>
+  <li> <em>Promotes interoperability by minimizing the requirements for shared understanding</em>
+    <ul>
+      <li>There is a standard way of utilizing web services. </li>
+    </ul>
+  </li>
+  <li> <em>Enables just-in-time integration</em>
+    <ul>
+      <li>Web services do not need to be known until they are required by the application. All of the information is received in the WSDL. </li>
+    </ul>
+  </li>
+  <li> <em>Reduces complexity by encapsulation</em>
+    <ul>
+      <li>All of the business logic is encapsulated by the XML through the WSDL and SOAP messages. </li>
+    </ul>
+  </li>
+  <li> <em>Enables interoperability of legacy applications</em>
+    <ul>
+      <li>Applications can utilize the business logic through just a simple HTTP request. New applications can be created through the legacy business logic that can utilize the legacy business logic. </li>
+    </ul>
+  </li>
+</ul>
+<hr />
+<p>Sources:</p>
+<p>IBM Services  Architecture Team. &quot;Web Services Architecture Overview.&quot; 06 September  2000. <u>DeveloperWorks.</u> 18 April 2009  &lt;http://www.ibm.com/developerworks/webservices/library/w-ovr/?dwzone=webservices&gt;.</p>
+<p>Nussbaumer, Martin and  Margin Gaedke. &quot;Technologies for Web Applications.&quot; <u>Web  Engineering.</u> Ed. Gerti Kappel, et al. Hoboken: John Wiley &amp; Sons Inc.,  2006. 111-132.</p>
+<p>Vasudevan, Venu.  &quot;A Web Services Primer.&quot; 1 April 2001. <u>O'Reilly xml.com.</u> 18  April 2009  &lt;http://webservices.xml.com/pub/a/ws/2001/04/04/webservices/index.html?page=1&gt;.<br />
+  <br />
+W3C. &quot;Web Services  Architecture.&quot; 2004. <u>W3C.</u> 18 April 2009  &lt;http://www.w3.org/TR/ws-arch/&gt;.</p>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Java EE Introduction</h1>
+<hr />
+<h2>What is Java EE?</h2>
+<p>The Java EE (Enterprise Edition) platform (formly known as the J2EE platform) is used to develop distributed, multitiered client/server applications. There is a special aspect of this platform for developing web based enterprise applications. The overall idea is that by providing a powerful infrastructure, the less work the programmers need to do. By providing powerful APIs, programmers do not have to worry about certain aspects of their web based enterprise applications.</p>
+<h2>Java EE Components</h2>
+<p>There are three components to any web based Java EE project and they will be described in their functions:</p>
+<ul>
+  <li>Servlets: object oriented classes that store business logic. These are representative of CGI files in performance. These files normally hold business logic. </li>
+  <li>JSP: these files hold your presentation and use an XML/HTML type format. These files are an extension of the servlet API and are compiled into servlets on load time. </li>
+  <li>EJB: Enterprise Java Beans are a distributed compenent system intended to provide a standard way of defining server side objects. They allow for uniform communication for legacy applications. </li>
+</ul>
+<p>These components work together to form a distributed multitiered application that can be viewed on a variety of clients. The clients could either be java applications, applets, or a web browser.</p>
+<h2>How does Java EE compare to other languages such as PHP?</h2>
+<p>The power of Java EE applications come in the way the business logic is contained on the server. The business logic is stored in containers or special areas on the server. If the client is not a web browser the application logic is stored on the client in the application container.</p>
+<p><img src="images/overview-serverAndContainers.gif" width="438" height="238" /></p>
+<p>There are four different containers available through Java EE.</p>
+<ul>
+  <li>Web Container - Contains all of the JSP Pages and Servlets </li>
+  <li>EJB Container - Contains all of the Enterprise Beans </li>
+  <li>Application Client Container - Contains the client application information </li>
+  <li>Applet Container     - Contains all applets </li>
+</ul>
+<p>This diagram shows how containers work together. The web container contains all of the JSP and Servlets so that the browser is the client. The EJB container contains the business logic and is the go between the application container and the underlying Database. The application container contains the logic so that a java application can speak to the EJB container. The web container interacts with the EJBs in the same way that the application container interacts with the EJB container to ultimately interact with the underlying database.</p>
+<h2>How do Java EE applications work?</h2>
+<p>The basic containers are stored on special servers called Java EE Servers. These servers provide the applications with the containers that they need to complete their purposes. They also provide the applications with a some security to the applications. Examples of these servers include the Tomcat Servlet Engine, Glassfish, JBOSS, and the Oracle Application Server. </p>
+<p>It should be noted that the Tomcat Servlet Engine only provides web containers, but does not include the EJB Container.  </p>
+<p>An diagram of how a J2EE server works is below:</p>
+<p><img src="images/J2EEApplicationServer.png" width="836" height="709" /> </p>
+<hr />
+<p>Sources:</p>
+<p>Askesis . <u>A J2EE  Introduction.</u> April 2002. 29 March 2009  &lt;http://www.askesis.nl/en/tutorial/docs/J2EE/body.html#The%20J2EE%20Platform&gt;.</p>
+<p>Sun Microsystems.  &quot;J2EE Containers.&quot; 2003. <u>The J2EE 1.4 Tutorial.</u> 29 March 2009  &lt;http://java.sun.com/j2ee/1.4/docs/tutorial/doc/Overview3.html&gt;.</p>
+</body>
+
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Enterprise Java Beans (EJBs) </h1>
+<hr />
+<h2>What are Enterprise Java Beans?</h2>
+<p>Like web services, EJBs allow for remote execution of business logic. The EJBs run inside the EJB container of the application server, which is separate from the web container. This is important because EJBs keep the business logic separate from the presentation in the client (whether the client is web based or not). This allows for multiple clients to be developed using the same EJBs.</p>
+<p>EJBs can also be  web services at the same time as being EJBs. The client applications will have two ways of accessing the business logic. In addition  to using HTTP to transfer the business logic EJBs can use what is called an RMI (Remote Method Invocation) connection. </p>
+<p>There are two types of EJBs</p>
+<ul>
+  <li>Session - These beans hold the business logic for the application. </li>
+  <li>Message-Driven - Listen for messages that are sent using the Java Messenger Service API. </li>
+</ul>
+<p>In addition to there being two types of EJBs, there are two ways to access EJBs. The EJBs could be accessed remotely or locally. These two types are programmed via interfaces. It depends on how the clients will be accessing the EJBs as to whether to implement local interfaces or remote interfaces.</p>
+<p>If the client is a web interface or another EJB that is running on the same application server then it is wise to implement the local interfaces for the EJBs. If the clients are not on the same server then the EJBs must implement the local interfaces. EJBs can be implemented using both local and remote interfaces if multiple clients will be accessing them. </p>
+<h3>Session Beans</h3>
+<p>Session Beans are invoked when clients need to utilize remote or local business logic. There are two types of session beans, stateless and stateful.</p>
+<p><strong>Stateless Session Beans</strong></p>
+<p>Stateless Session Beans are session beans that do not have any information about the client. These beans are pooled together on the server so there is no guarantee that you will get the same bean between requests. All method invocation is done through pass-by-reference. </p>
+<p><strong>Example--Calculator</strong></p>
+<p>The Remote and Local interfaces</p>
+<blockquote>
+  <pre><strong>@Local</strong>
+public interface CalculatorLocal {
+	public int sum(int add1, int add2);
+	public int multiply(int mul1, int mul2);
+}
+
+
+<strong>@Remote</strong>
+public interface CalculatorRemote {
+	public int sum(int add1, int add2);
+	public int multiply(int mul1, int mul2);
+}</pre>
+</blockquote>
+<p>The implementation of the interfaces.</p>
+<blockquote>
+  <pre><strong>@Stateless</strong>
+public class CalculatorImpl implements CalculatorRemote, CalculatorLocal {
+	public int sum(int add1, int add2) {
+		return add1+add2;
+	}
+	public int multiply(int mul1, int mul2) {
+		return mul1*mul2;
+	}
+}</pre>
+</blockquote>
+
+<p>It is important to note the annotations that are used in the creation of the stateful session bean.</p>
+<ul>
+  <li>@Local--This annotation indicates that the interface is a local interface for the stateful bean.</li>
+  <li>@Remote--This annotation indicates that the interface is a remote interface for the stateful bean.</li>
+  <li>@Stateless--This annotation indicates that the implementation of the interfaces will be a stateless session bean. </li>
+</ul>
+<p><strong>Stateful Session Beans </strong></p>
+<p>Stateful Session Beans are session beans that contain client information. This information is considered to be &quot;conversational talk&quot; since the clients talk with the application server to retrieve the EJBs. All method invocations is done through pass-by-value. </p>
+<p><strong>Example--Counter</strong></p>
+<p>The local interface for the counter stateful session bean. </p>
+<blockquote>
+  <pre><strong>@Local</strong>
+public interface CounterLocal {
+    public int increment();
+    public int reset();
+}</pre>
+</blockquote>
+<p>The Remote interface for the stateful session bean.</p>
+<blockquote>
+  <pre><strong>@Remote</strong>
+public interface CounterRemote {
+    public int increment();
+    public int reset();
+}</pre>
+</blockquote>
+<p>The actual stateful session bean that implements the business logic CounterImpl, which implements both the local and remote interfaces.</p>
+<blockquote>
+  <pre><strong>@Stateful</strong>
+public class CounterImpl implements CounterLocal, CounterRemote {
+    private int count = 0;
+    public int increment() {
+        return ++count;
+    }
+    public int reset() {
+        return (count = 0);
+    }
+}</pre>
+</blockquote>
+<p>It is important to note the annotations that are used in the creation of the stateful session bean.</p>
+<ul>
+  <li>@Local--This annotation indicates that the interface is a local interface for the stateful bean.</li>
+  <li>@Remote--This annotation indicates that the interface is a remote interface for the stateful bean.</li>
+  <li>@Stateful--This annotation indicates that the implementation of the interfaces will be a stateful bean.   </li>
+</ul>
+<h3>Message-Driven Beans  (MDB) </h3>
+<p>Message-Driven Beans are different because the client does not use interfaces to invoke the beans. Instead the Java Message Service API is used to send messages to the application server. The Message-Driven Beans just process the messages. </p>
+<p>The Message-Driven Bean will listen for messages that come through the application server. It is outlined in the following diagram.</p>
+<p><img src="images/mdb-simpleMessageApp.gif" width="437" height="158" /> </p>
+<p>The messages are automatically added to the queue and the MDB automatically takes the messages off of the queue. </p>
+<p><strong>Example--Simple Message Bean </strong></p>
+<p>The MDB will be implemented a little bit differently than the session beans because of the fact that MDB are not invoked via interfaces. They are invoked via JNDI calls. The beginning of the bean is outlined like this.</p>
+<blockquote>
+  <pre><strong>@MessageDriven</strong>(mappedName="jms/Queue")
+public class SimpleMessageBean implements MessageListener {
+   <strong> @Resource</strong>
+    private MessageDrivenContext mdc;
+    ...</pre>
+</blockquote>
+<p>The heart of the MDB is the handler that is called when the messages are taken off of the queue, which is always named onMessage.</p>
+<blockquote>
+  <pre>public void onMessage(Message inMessage) {
+    TextMessage msg = null;
+
+    try {
+        if (inMessage instanceof TextMessage) {
+            msg = (TextMessage) inMessage;
+            logger.info("MESSAGE BEAN: Message received: " +
+                msg.getText());
+        } else {
+            logger.warning("Message of wrong type: " +
+                inMessage.getClass().getName());
+        }
+    } catch (JMSException e) {
+        e.printStackTrace();
+        mdc.setRollbackOnly();
+    } catch (Throwable te) {
+        te.printStackTrace();
+    }
+}</pre>
+</blockquote>
+<p>Notice the annotations that were used for the MDB.</p>
+<ul>
+  <li>MessageDriven--This specifies that this bean is Message-Driven. It also includes the JNDI reference that is called by the client.</li>
+  <li>Resource--This annotation automatically uses the resource which is already instantiated. </li>
+</ul>
+<hr />
+<p>Sources:</p>
+<p>Apache Software  Foundation. <u>Simple Stateful Example.</u> 19 April 2009  &lt;http://openejb.apache.org/3.0/simple-stateful-example.html&gt;.<br />
+  <br />
+&mdash;. <u>Simple Stateless  Example.</u> 19 April 2009 &lt;http://openejb.apache.org/3.0/simple-stateless-example.html&gt;.</p>
+<p>Sun Microsystems. <u>Java EE 5  Tutorial.</u> October 2008. 7 April 2009  &lt;http://java.sun.com/javaee/5/docs/tutorial/doc/bnaph.html&gt;.</p>
+</body>
+</html>

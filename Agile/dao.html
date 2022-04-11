@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Data Access</h1>
+<hr />
+<h2>The Problem</h2>
+<p>How do web-based applications connect to the database to retrieve data? Most web-based applications are data intensive, which means a database is necessary. Exactly how does this fit into the MVC paradigm, where everything is strictly separated. Well, the short answer is that the data is part of the model portion of the MVC paradigm. </p>
+<p>The more complex answer includes the complications that occur when interacting with the entity relationship model that modern databases use. How do the entities relate to the objects that are created in the web-based applications? The relations and tables contain the information that form objects. There is a way to form objects from these relations and the solution comes in the form of Data Access Objects (DAO) design pattern. </p>
+<p>Web based applications could also access other persistent storage, such as LDAP and ERP systems. </p>
+<h2>The Solution</h2>
+<p>The Data Access Object design pattern is used to access data from persistent sources (Relational Database or other web services).</p>
+<p><img src="images/dao.jpg" width="282" height="176" /></p>
+<p>The DAO acts as a bridge between the persistent data sources and the web based application. They also help in translating the relational model to the object orientated model. </p>
+<p>The DAO design pattern is a set of classes and interfaces that allow for that bridge between the persistent data source and the web based application to exist. </p>
+<p><img src="images/figure09_01.jpg" width="424" height="168" /></p>
+<p> Basically, when the application needs to use data from the database it will invoke the DAO. The DAO will run the query necessary and will create objects from the resultset. </p>
+<h2>How to achieve the solution?   </h2>
+<p>The DAO design pattern can be implemented with the following items:</p>
+<ul>
+  <li>A DAO factory class</li>
+  <li>A DAO interface</li>
+  <li>A concrete class that implements the DAO interface</li>
+  <li>Data transfer objects (sometimes called value objects)</li>
+</ul>
+<p>The DAO factory class will generate the class that implements the correct concrete class that implements the DAO interface. The DAO interface is required because multiple data stores could be used. The Data transfer object is the object that is returned from the DAO class.</p>
+<p>Here is an example of a class hierarchy for an abstract factory implementation of the DAO pattern.</p>
+<p><img src="images/figure09_08.jpg" width="354" height="362" /> </p>
+<p>The DAOFactory is an abstract class that the lower classes will extend. Each of classes that extend the DAOFactory class are for different persistent data stores. In this case there are three: cloudscape, oracle, and sybase. Each of those factories create DAO objects that run the correct queries for that particular data store and implement the CustomerDAO interface, so they each have the same methods. The DAO objects then create Customer objects that are utilized by the business logic.</p>
+<p>The next lecture will focus on Hibernate, an open source framework for interacting with mutliple data stores. </p>
+<hr />
+<p>Sources: </p>
+<p>Sullivan, Sean.  &quot;Advanced DAO Programming.&quot; 07 October 2003. <u>IBM Developerworks.</u> 15 April 2009 &lt;http://www.ibm.com/developerworks/library/j-dao/&gt;.</p>
+<p>Sun Microsystems.  &quot;Data Access Object.&quot; 2002. <u>Core J2EE Patterns.</u> 14 April 2009  &lt;http://java.sun.com/blueprints/corej2eepatterns/Patterns/DataAccessObject.html&gt;.</p>
+</body>
+</html>

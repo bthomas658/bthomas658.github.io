@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Model View Controller for Web-based Applications </h1>
+<hr />
+<h2>What is MVC?</h2>
+<p>MVC is a design pattern that is used to separate the graphical user interface from the application itself. This complete separation allows for the creation of multiple user interfaces for the same application. One interface could be web-based and another could be a native operating system application. This design pattern falls nicely into the separation of containers for Java EE applications.   </p>
+<h2>How does it work for the web?</h2>
+<p>The follow diagram shows how the three aspects of the model view controller design pattern. Since the HTTP protocol is stateless the state must be stored in the model.</p>
+<p><img src="./images/mvc-structure-generic.gif" width="550" height="385" />  </p>
+<p>As you can see, the HTML that is generated is the view. The model contains the business logic for the application and the controller chooses what logic to run for the given request. The controller combines the model and the view together.</p>
+<p>Each component of the design pattern performs the following actions:</p>
+<ul>
+  <li><strong>Model</strong> - The model represents enterprise data   and the business rules that govern access to and updates   of this data. Often the model serves as a software   approximation to a real-world process, so simple   real-world modeling techniques apply when defining the model. </li>
+  <li><strong>View</strong> -The view renders the contents of a model.   It accesses enterprise data through the model and specifies   how that data should be presented. It is the view's   responsibility to maintain consistency in its presentation   when the model changes. This can be achieved by using a push   model, where the view registers itself with the model for   change notifications, or a pull model, where the view is   responsible for calling the model when it needs to retrieve   the most current data. </li>
+  <li><strong>Controller</strong> - The controller translates interactions   with the view into actions to be performed by the model. In a   stand-alone GUI client, user interactions could be button clicks   or menu selections, whereas in a Web application, they appear as   GET and POST HTTP requests. The actions performed by the model   include activating business processes or changing the state of   the model. Based on the user interactions and the outcome of   the model actions, the controller responds by selecting an   appropriate view. </li>
+</ul>
+<h2>How can this be accomplished?</h2>
+<p>The good news for developers is that there are MVC frameworks developed for many of the languages used to create enterprise level web-based applications. Two frameworks that are available for Java EE applications are the Spring Framework and JavaServer Faces. More time will be spent on JavaServer Faces because it is smaller than the Spring Framework and a little bit easier to setup and use.</p>
+<hr />
+<p>Sources:  </p>
+<p>Sun Microsystems. &quot;Java  Blueprints - Model-View-Controller.&quot; 2000. <u>J2EE Patterns.</u> 3 April  2009 &lt;http://java.sun.com/blueprints/patterns/MVC-detailed.html&gt;.</p>
+<p>&nbsp; </p>
+</body>
+</html>

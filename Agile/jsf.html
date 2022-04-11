@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title></head>
+
+<body>
+<h1>JavaServer Faces (JSF) </h1>
+<hr />
+<h2>What is it?</h2>
+<p>JavaServer Faces is a framework specification that was designed by Sun. The framework connects custom UI components with the model in the background and the controller. The controller navigation is configured through an xml configuration file named faces-config.xml. The controller is generated when the application is deployed and the controller combines the model and the view which is defined in the xml configuration.</p>
+<h2>Components</h2>
+<p>There are several components involved in creating a JavaServer Faces application. These will be described based on their placement in the MVC design pattern. </p>
+<p><strong>UI Components (View) </strong></p>
+<p>The heart of the UI component of JSF is the JSP JSTL (Java Standard Tag Library) that allows for the generation of HTML components on the server side. The model and data objects are binded to the UI components in the JSP files to provide state. The following diagram portrays the actions of the UI portion of JSF.</p>
+<p><img src="./images/jsfIntro-ui-server.gif" width="381" height="122" /> </p>
+<p>Event handlers connect the UI to the objects in the model and provide state in a stateless environment. These event handlers automatically invoke the controller when an action is performed and the view is updated through the model. Since stateful objects are binded to UI components, the stateful objects are recreated on events. The end product is a stateful, MVC web-based application. </p>
+<p><strong>Backing Beans (Model)</strong></p>
+<p>Each JSP file that contains a view for the application should also have a backing bean that contains the business logic for the actions that are performed in the corresponding view. Any event listeners are programmed in the backing bean and are invoked by the controller. </p>
+<p><strong>Faces Servlet (Controller) </strong></p>
+<p>The controller is generated as a servlet through configuration files that define the navigation, backing beans, POJO's, event listeners, and validators. The faces servlet is configured through the faces-config.xml file.</p>
+<p>Here is an example faces-config.xml:</p>
+<p>&lt;?xml version='1.0' encoding='UTF-8'?&gt;<br />
+  &lt;!DOCTYPE faces-config PUBLIC &hellip;&gt;<br />
+  &lt;faces-config&gt;<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;navigation-rule&gt;<br />
+  	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;from-view-id&gt;/blah.jsp&lt;/from-view-id&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;navigation-case&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;from-outcome&gt;some string&lt;/from-outcome&gt;  <br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;to-view-id&gt;/WEB-INF/results/something.jsp&lt;/to-view-id&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/navigation-case&gt;<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/navigation-rule&gt;<br />
+&lt;/faces-config&gt;</p>
+<p>More information can exist inside the faces-config.xml file. </p>
+<p><strong>Event Handlers</strong></p>
+<p>The event handlers are called after an event on the client side occurs. This helps to make programming JSF applications more like programming desktop applications, which are event driven. </p>
+<h2>Request Lifecycle </h2>
+<p>This is a simplified version of the request lifecycle of a JSF request.</p>
+<p><img src="images/jsfIntro-lifecycle.gif" width="447" height="248" /></p>
+<p>The following can be represented with the following steps:</p>
+<ul>
+  <li>A form is displayed</li>
+  <li>The form is submitted to itself Original URL and ACTION URL are http://&hellip;/blah.faces</li>
+  <li>A bean is instantiated </li>
+  <li>The action controller method is invoked The action controller method is invoked </li>
+  <li>The action method returns a condition</li>
+  <li>In this example, static condition is specified in form</li>
+  <li>A results page is displayed<br />
+  </li>
+</ul>
+<p>Understanding the lifecycle of a JSF request is important for debugging and redirecting.</p>
+<h2>Tools</h2>
+<p>There are a number of JavaServer Faces tools available for a number of different IDEs, including Eclipse and Netbeans. The following tutorial is available to learn the WTP tools  for eclipse.</p>
+<p><img src="images/faces-servlet-config.png" width="519" height="412" /></p>
+<p>As you can see, the newest version of Eclipse (WTP version) includes a faces-config.xml visual editor. It allows you to control the navigation, managed beans, components and other features that are included in the WTP version of Eclipse. The tutorial covering these topics can be found <a href="http://www.eclipse.org/webtools/jsf/dev_resource/JSFTutorial-RC3/JSFTools_tutorial.html">here</a>.</p>
+<hr />
+<p>Sources:</p>
+<p>Geary, David and Cay  Horstmann. <u>Core JavaServer Faces.</u> 2nd Edition. Santa Clara, CA: Prentice  Hall, 2007.</p>
+<p>Hall, Marty. <u>JavaServer  Faces Tutorial.</u> 7 April 2009  &lt;http://www.coreservlets.com/JSF-Tutorial/&gt;.</p>
+<p>Srinivasn, Raghu.  &quot;JavaServer Faces Tools.&quot; 24 May 2006. <u>WTP Tutorials.</u> 7 April  2009 &lt;http://www.eclipse.org/webtools/jsf/dev_resource/JSFTutorial-RC3/JSFTools_tutorial.html  &gt;.</p>
+<p>Sun Microsystems. <u>Java EE 5  Tutorial.</u> October 2008. 7 April 2009  &lt;http://java.sun.com/javaee/5/docs/tutorial/doc/bnaph.html&gt;.</p>
+<p>Sun Microsystems. &quot;The Life Cycle  of a JavaServer Faces Page.&quot; December 2005. <u>The J2EE 1.4 Tutorial.</u> 7 April 2009  &lt;http://java.sun.com/j2ee/1.4/docs/tutorial/doc/JSFIntro10.html#wp123500&gt;.</p>
+</body>
+
+</html>

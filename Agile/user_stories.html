@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+.box {
+	border: 1px solid #000000;
+	width:auto;
+}
+-->
+</style>
+</head>
+
+<body>
+<h1>User Stories</h1>
+<hr />
+<h2>What are user stories?</h2>
+<p>User stories are the written requirements used in many of the popular agile processes. These are very different than the traditional requirements that are used by the traditional heavyweight models. The heavy weight models normally use the requirements document outlined in IEEE 830, which outlines the guidelines for creating good software requirements.</p>
+<p>User Stores are comprised of one sentence features that are written by the users of the software. According to Mike Cohn, users stories are made up of three components:</p>
+<ul>
+  <li>a written description of the story used for planning and as a reminder</li>
+  <li>conversations about the story that serve to flesh out the detials of the story</li>
+  <li>tests that convey and document details and that can be used to determind when a story is complete</li>
+</ul>
+<p>Here is an example of a user story for a resume sharing website. </p>
+<ul>
+  <li>A user can view a job description </li>
+  <li>A user can view a job's salary range </li>
+  <li>A user can view the location of a job </li>
+</ul>
+<p>This user story is one sentence that should have been written by a user or purchaser of the software. They explain features of the software that the users can perform. Each user story is limited to one feature. As you can see these stories are just the features. How do the other two components work?</p>
+<p>Typically these user stories are written on notecards. The one sentence feature appears on the card. Also, on the card are notes from the conversation that is held about this requirement. The conversations can be held between the users and developers or between developers themselves. On the back of the cards there are acceptance test descriptions that need to be met before the feature can be marked as complete. </p>
+<p><strong>Conversations</strong></p>
+<p>The conversations are recorded below the user story. These conversations help to clarify ambiguities that can arise when it comes to analyze and design this requirement. For this proposed resume sharing website the job posters will need to pay for the job postings. So this user story is created.</p>
+<ul>
+  <li>A user can view information about each job that is matched in the search</li>
+</ul>
+<p>This user story is fairly vague, but through conversations with the users and the software developers notes can be created.</p>
+<ul>
+  <li>&quot;Marco says show description, salary, and location&quot;</li>
+</ul>
+<p>So the user of the software that created the user story explained what he wanted through conversations with the developers. The developers note these conversations so that the user story can be an ongoing record. This is helpful for when the user story is ready to be analyzed and designed. </p>
+<p><strong>Testing</strong></p>
+<p>On the back of the card are the requirements that need to pass before the feature is called complete. These come through conversations with the customer and users. For the resume sharing website this user story is written down:</p>
+<ul>
+  <li>A user can pay for posting jobs by credit card.</li>
+</ul>
+<p>Through conversations the following tests are created with post conditions.</p>
+<ul>
+  <li>Test with Visa, Mastercard, and American Express (pass)</li>
+  <li>Test with Diner's Club (fail)</li>
+  <li>Test with Visa debit card (pass)</li>
+  <li>Test with good, bad and missing card ID numbers from the back of the card.</li>
+  <li>Test with expired cards.</li>
+  <li>Test with different purchase amounts (including one over the card's limit).       </li>
+</ul>
+<p><strong>Epic Stories </strong></p>
+<p>Sometimes user stories can be very large and ambiguous. If the user stories can be broken up into smaller user stories this is called an epic story. For instance, this user story for the resume sharing website is considered an epic:</p>
+<ul>
+  <li>A user can search for a job</li>
+</ul>
+<p>This user story is fairly vague and can be broken into other stories such as these:</p>
+<ul>
+  <li>A user can search for jobs by attributes like location, salary range, job title, company name, and date that the job was posted.</li>
+  <li>A user can view information about each job that is matched in the search</li>
+  <li>A user can view detailed information about a company that has posted a job.</li>
+</ul>
+<p>With the epic story broken down into smaller stories it becomes more manageable to complete. </p>
+<h2>What user stories aren't?</h2>
+<p><strong>IEEE 830 </strong></p>
+<p>The guidelines that are represented in IEEE 830 do not represent what user stories are. The requirements that come out of the look like this:</p>
+<ul>
+  <li>The system shall allow a company to pay for a job posting with a credit card.
+    <ul>
+      <li>The system shall accept Visa, MasterCard and American Express cards.</li>
+      <li>The system shall charge the credit card before the job posting is placed on the site.</li>
+      <li>The system shall give the user a unique confirmation number</li>
+    </ul>
+  </li>
+</ul>
+<p>This type of requirements document requires all of the requirements to be completed before any analysis and design takes place. There is too much information placed in this document at the begining and is fairly rigid in terms of changing requirements. User stories are similar in the fact that they are requirements, but there is not as much detail placed in a user story. This is because user stories are placeholders for requirements. When the requirement needs to be completed a conversation takes place where all of the details can come from the user and developers, instead of coming from the beginning. </p>
+<p><strong>Use Cases</strong></p>
+<p>Use cases were popularized in the 1990s when the unified process became a popular software development lifecycle model. Use cases and user stories are similar in that they describe features. A use case contains some of the same information as a user story, but has much greater detail than a user story. They are normally created during the analysis and design phase of a software requirement.</p>
+<p>For instance, a use case that describes an email feature might look like this:</p>
+<div class="box">
+  <p><strong>Use Case Title:</strong> Compose and send email message<br />
+    <strong>Main Success Scenario:</strong></p>
+  <ol>
+    <li>User selects the &quot;New Message&quot; menu item.  </li>
+    <li>System presents the user with the &quot;Compose New Message&quot; dialog.</li>
+    <li>User edits email body, subject field and recipient lines.</li>
+    <li>User clicks the Send button.</li>
+    <li>System sends the message.   </li>
+  </ol>
+</div>
+<p>The scope of a use case is much larger than that of a user story. A use case might cover a large requirement such as an epic user story, but they might even be larger than that. User stories are meant to be place holders for conversations between the developers and the users, so a user story will never be large since the conversation is not supposed to end throughout the entire development process. Use cases also last the entire project. User stories are meant to be used for a single sprint. </p>
+<p><strong>Bad Stories </strong>(Implementation Details) </p>
+<p>There are some requirements that do not represent valued features because they represent implementation details. These, on occasion, could be user stories that exist in an application when it is required. For instance, the user might be a developer that will be interfacing with what you create, so it is important is it written in a certain language or in a certain way. Examples of these stories are below: </p>
+<ul>
+  <li>The software will be written in C++</li>
+  <li>The program will connect to the database through   a connection pool. </li>
+</ul>
+<p>These stories are normally considered bad because they do not represent a discussion held between the user and developers about valued features. Normally the users do not care how it is programmed as long as the features work as expected. The stories should not contain any implementation details either as they should appear in the notes. </p>
+<h2>How to write user stories? </h2>
+<p>Writing user stories is a very difficult process between users and developers. The requirements gathering process for any software project is probably the hardest phase. Requirements are hard to get because users do not know what they want. Mike Cohn, the author of <em>User Stories Applied: For Agile Software Development<strong>, </strong></em>suggests that there are different techniques to gathering requirements.</p>
+<ul>
+  <li><strong>User Interviews</strong>
+    <ul>
+      <li>Interview real users that fill different roles whenever possible</li>
+      <li>Ask open ended questions  </li>
+    </ul>
+  </li>
+  <li><strong>Questionnaires</strong>
+    <ul>
+      <li>Can be helpful when trying to get information from a large group of people</li>
+      <li>This technique should supplement another technique  </li>
+    </ul>
+  </li>
+  <li><strong>Observation</strong>
+    <ul>
+      <li>One of the best ways to improve the user experience is to watch the users use the applications</li>
+      <li>Unfortunately this can be very difficult to setup because the users are annonymous</li>
+      <li>This really only works when the users are in house   </li>
+    </ul>
+  </li>
+  <li><strong>Story-Writing workshops </strong>
+    <ul>
+      <li>A meeting that contains developers, users, and other stake holders.</li>
+      <li>Participants write as many users stories as possible without setting priorities</li>
+      <li>These types of meetings can be held before every iteration</li>
+      <li>Some basic prototyping (workflows) can occur during these meetings    </li>
+    </ul>
+  </li>
+</ul>
+<p>It might be helpful to use the following format when writing user stories. This template of writing user stories shows how the features are valued to the users. It is borrowed from Extreme Programming:</p>
+<ul>
+  <li>I as a (role) want (feature) so that (business value).
+    <ul>
+      <li>The roles are the types of users that access your application</li>
+      <li>The feature is what the user wants</li>
+      <li>The business value is why the user wants it.     </li>
+    </ul>
+  </li>
+</ul>
+<p>Here are some tips for writing good stories</p>
+<ul>
+  <li>Keep the user interface details out of the user story.
+    <ul>
+      <li>The user should not care about how it looks, they only worry about the functionality. The UI is considered an implementation detail and should not be added to the user story. </li>
+    </ul>
+  </li>
+  <li>Write for one user instead of groups</li>
+  <li>Include roles in the stories</li>
+  <li>Write in active voice</li>
+  <li>Put constraints on the cards
+    <ul>
+      <li>These constraints are not features but they must be obeyed</li>
+      <li>For instance &quot;The system must support peak usage of up to 50 concurrent users.&quot; is an example of a constraint card. </li>
+    </ul>
+  </li>
+  <li>Don't forget the purpose
+    <ul>
+      <li>These story cards are reminders to discuss the features when it comes time to develop them   </li>
+    </ul>
+  </li>
+</ul>
+<p>Once the user stories are gathered, notes from the conversations about these cards are noted. These can be pursued further when they are ready to be analyzed. Since the stories are not analyzed right away the notes from the conversations are important.</p>
+<p>It is also important to note that acceptance tests appear on the back of the card. Here are a few tips about testing:</p>
+<ul>
+  <li>Write your tests before you code.</li>
+  <li>Have the user write the tests</li>
+</ul>
+<h2>Why use user stories?</h2>
+<p>You may be asking yourselves why should we go through the process of writing user stories as requirements when there are already standards available? Mike Cohn has outlined many reasons and they will be explored more in depth.</p>
+<ul>
+  <li><strong>Verbal Communication</strong>
+    <ul>
+      <li>Since user stories are placeholders for conversations about requirements, developers must communicate the needs of the users very often.</li>
+      <li>Helps to reduce ambiguity when it comes to the requirements</li>
+    </ul>
+  </li>
+  <li><strong>Comprehensible</strong>
+    <ul>
+      <li>Both users and developers should be able to understand the user stories.</li>
+      <li>The users know exactly what they should be getting.  </li>
+    </ul>
+  </li>
+  <li><strong>Planning</strong>
+    <ul>
+      <li>User stories are the right size for planning. </li>
+      <li>IEEE 830 documents are too long and detailed when it comes to prioritizing requirements</li>
+      <li>Use Cases and  Scenarios are too big to manage because they contain many requirements </li>
+    </ul>
+  </li>
+  <li><strong>Iterative Development</strong>
+    <ul>
+      <li>Not all of the user stories need to be completed before development begins</li>
+      <li>At the beginning of each iteration the user stories are reorganized and prioritized</li>
+      <li>The most important are chosen for development and the rest are put back for later iterations</li>
+      <li>Details emerge during the iterations instead of at the beginning of the development  </li>
+    </ul>
+  </li>
+  <li><strong>Deferring Detail</strong>
+    <ul>
+      <li>User stories are placeholders for conversations about the requirements.</li>
+      <li>The analysis and design are done at the time of completion instead of at the beginning</li>
+      <li>IEEE 830 documents require analysis and design to be completed before development can begin. </li>
+    </ul>
+  </li>
+  <li><strong>Opportunistic design</strong>
+    <ul>
+      <li>It is impossible to get all of the requirements at the beginning of the project.</li>
+      <li>Software is not developed in a linear path</li>
+      <li>User stories allow for the creation of software by utilizing the current priorities. </li>
+    </ul>
+  </li>
+  <li><strong>Participatory Design</strong>
+    <ul>
+      <li>There is participation between users, developers and other stake holders throughout the entire process. </li>
+    </ul>
+  </li>
+</ul>
+<hr />
+<p>Sources:</p>
+<p>Cohn, Mike. <u>User  Stories Applied: For Agile Software Development.</u> Boston: Pearson Education  Inc, 2004.</p>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title></head>
+
+<body>
+<h1>JQuery</h1>
+<hr />
+<h2>What is JQuery?</h2>
+<p>Most developers have run into the small differences between the way different browsers interpret client side JavaScript. This can cause major frustration in creating the client side code. JQuery is a JavaScript Library that is meant to ease the writing of cross browser JavaScript code. JQuery is extensible and has many plugins available. There is also an entire set of plugins available for user interface manipulations. </p>
+<h2>How does it work? </h2>
+<p>The power of JQuery is DOM manipulation. If you need to change anything in the HTML page, JQuery will allow you to do this in a manner that is consistent between all major browsers. The library also allows you to chain commands together, which also helps to make JQuery more powerful. </p>
+<p>It is extremely easy to setup. To include the library in your HTML pages all you need to do is download the JavaScript file from www.jquery.com and include the that file in your HTML</p>
+<pre>
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+      // Your code goes here
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;a href=&quot;http://jquery.com/&quot;&gt;jQuery&lt;/a&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;</pre>
+<h2>Examples</h2>
+<p><strong>DOM Manipulation</strong></p>
+<p>Traditionally JavaScript programmers use the following functions to retrieve HTML elements to alter them in real time:</p>
+<pre>document.getElementById()
+document.getElementsByName()
+
+document.getElementsByTagName()
+</pre>
+<p>These functions are fairly limited in their use. What if you required to get a collection of elements that have the same CSS class. You would have to loop through every element and return the collection. JQuery simplifies this because you can select any HTML element by supplying the CSS information.</p>
+<p>To select an element by the id and you would use this functionality.</p>
+<pre>var elements = $('#elementID'); //by id
+var elements = $('.elementClass'); //by class  </pre>
+<p>The is good for selecting elements because you can reference them by their CSS selectors, but what about manipulating all of the elements that fit the search.</p>
+<pre>//Update the class names of every link
+$('a').aliClass('newClassName');
+</pre>
+<p>The JQuery commands can be chained together. For instance we can ali a new class name and update the color of the links. </p>
+<pre>$('a').aliClass('newClassName').css('color','black'); </pre>
+<p><strong>AJAX</strong></p>
+<p>AJAX has always had cross browser problems. This is because Internet Explorer has implemented the XMLHTTPRequest object differently from the other browsers. To overcome this developers had to traditionally do something like this.</p>
+<pre>
+if (window.XMLHttpRequest)     // Object of the current windows
+{ 
+    xhr = new XMLHttpRequest();     // Firefox, Safari, ...
+} 
+else if (window.ActiveXObject)   // ActiveX version
+ {
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");  // Internet Explorer 
+ } 
+ </pre>
+<p>Instead, JQuery offers a function to handle AJAX requests in the same manner across all browsers.</p>
+<pre>
+$.ajax({
+      url: "script.php",
+      global: false,
+      type: "POST",
+      data: ({id : this.getAttribute('id')}),
+      dataType: "html",
+      success: function(msg){
+         alert(msg);
+      }
+   }
+);</pre>
+<p>This brings down the response for that php script. The developer can do whatever they want with the results.</p>
+<p><strong>UI</strong></p>
+<p>JQuery also provides plugins for manipulating the user interface. The plugins provide widgets that can be used and animations for providing users a rich user interface.</p>
+<p>The following widgets are provided in the JQuery UI library.</p>
+<ul>
+  <li><a href="http://jqueryui.com/demos/accordion">Accordion</a></li>
+    				<li><a href="http://jqueryui.com/demos/datepicker">Datepicker</a></li>
+    				<li><a href="http://jqueryui.com/demos/dialog">Dialog</a></li>
+    				<li><a href="http://jqueryui.com/demos/progressbar">Progressbar</a></li>
+    				<li><a href="http://jqueryui.com/demos/slider">Slider</a></li>
+    				<li><a href="http://jqueryui.com/demos/tabs">Tabs</a></li>
+</ul>
+<p>The following animations are provided by the JQuery UI library.</p>
+<ul>
+      <li><a href="http://jqueryui.com/demos/aliClass">Add Class</a></li>
+      <li><a href="http://jqueryui.com/demos/removeClass">Remove Class</a></li>
+      <li><a href="http://jqueryui.com/demos/animate">Animate</a></li>
+      <li><a href="http://jqueryui.com/demos/effect">Effect </a></li>
+      <li><a href="http://jqueryui.com/demos/hide">Hide</a></li>
+      <li><a href="http://jqueryui.com/demos/show">Show</a></li>
+      <li><a href="http://jqueryui.com/demos/switchClass">Switch Class</a></li>
+      <li><a href="http://jqueryui.com/demos/toggle">Toggle</a></li>
+      <li><a href="http://jqueryui.com/demos/toggleClass">Toggle Class</a></li>
+</ul>
+<hr />
+<p>Sources:</p>
+<p>JQuery Team.  &quot;Ajax/jQuery.ajax.&quot; <u>jQuery Documentation.</u> 18 April 2009  &lt;http://docs.jquery.com/Ajax/jQuery.ajax#options&gt;.<br />
+  <br />
+jQuery UI Team. <u>jQuery  UI.</u> 2009. 18 April 2009 &lt;http://www.jqueryui.com&gt;.</p>
+<p>Resig, John. &quot;How  jQuery Works.&quot; <u>jQuery Tutorials.</u> 18 April 2009 &lt;http://docs.jquery.com/Tutorials:How_jQuery_Works&gt;.</p>
+<p>Sureau, Denis. <u>Ajax  Tutorial (Asynchronous Javascript + XML).</u> 2006. 18 April 2009  &lt;http://www.xul.fr/en-xml-ajax.html#ajax-in-depth&gt;.</p>
+</body>
+</html>

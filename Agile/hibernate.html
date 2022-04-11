@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title></head>
+
+<body>
+<h1>Hibernate</h1>
+<hr />
+<h2>What is it?</h2>
+<p>Hibernate is an object-relational mapping library for Java based applications. It provides a mechanism to create objects from the existing relational model (schema) in the data store. To understand how this works you must first understand object-relational mapping. </p>
+<p><strong>What is object-relational mapping?</strong></p>
+<p>Object-relational mapping is the idea of transforming entity relational models to fit class hierarchies. In web based applications there are normally persistent data stores where the data for the application is held. The data is modelled with entities and tables, which vary greatly from traditional objects. A java object could contain data that spans over multiple tables and could even include one-to-many or many-to-many relationships.</p>
+<p><img src="images/mappingOrderExample.gif" width="720" height="519" /> </p>
+<p>In this simple example it is easy to see how the class model (on the left) relates to the relational model (on the right). The problem is that the data types for the class model are not the same as the relational model. The hibernate libraries help to bring cohesion between the class model and the entity model. </p>
+<h2>How does Hibernate work?</h2>
+<p>Hibernate works by achieving the mapping described above and does so in a few steps.</p>
+<ol>
+  <li>Java objects (POJO) are created. These objects must have an empty constructor and all setters/getters. These are called your persistence classes. <br />
+  </li>
+</ol>
+<blockquote>
+  <pre>
+public class Student {
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private Set course = new HasSet();
+	//getter and setter methods removed here for brevity.
+}
+</pre>
+</blockquote>
+<ol start="2">
+  <li>A hibernate mapping file is created for that object. This file must be named hbm.xml and be placed in the same directory as the object.  </li>
+</ol>
+<p> Here is an example hbm.xml for a student object. Notice the many-to-many relationship for the course objects. The courses is a set of course objects.	</p>
+<blockquote>
+  <pre>
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC
+	&quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;
+	&quot;http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;&gt;
+
+&lt;hibernate-mapping&gt;
+	&lt;class name=&quot;com.icesoft.icefaces.tutorial.crud.hibernate.Student&quot; table=&quot;students&quot;&gt;
+		&lt;id name=&quot;studentId&quot; column=&quot;student_id&quot;&gt;
+			&lt;generator class=&quot;increment&quot;/&gt;
+		&lt;/id&gt;
+
+		&lt;property name=&quot;firstName&quot; column=&quot;first_name&quot;/&gt;
+		&lt;property name=&quot;lastName&quot; column=&quot;last_name&quot;/&gt;
+		&lt;property name=&quot;address&quot;/&gt;
+		&lt;set name=&quot;courses&quot; table=&quot;student_courses&quot;&gt;
+			&lt;key column=&quot;student_id&quot;/&gt;
+			&lt;many-to-many column=&quot;course_id&quot; class=&quot;com.icesoft.icefaces.tutorial.crud.hibernate.Course&quot;/&gt;
+		&lt;/set&gt;
+	&lt;/class&gt;
+
+&lt;/hibernate-mapping&gt;	</pre>
+</blockquote>
+<ol start="3">
+  <li>Create a hibernate configuration file. Configuration files contain the connection information for the data store. Configuration files can be in the form of a properties file, an XML file, or programmatically. This is an example of mysql database. </li>
+</ol>
+<blockquote>
+  <pre>
+&lt;!DOCTYPEhibernate-configurationPUBLIC
+	&quot;-//Hibernate/HibernateConfigurationDTD3.0//EN&quot;
+	&quot;http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd&quot;&gt;
+
+&lt;hibernate-configuration&gt;
+
+	&lt;session-factory&gt;
+
+		&lt;!--Database connection settings--&gt;
+		&lt;property name=&quot;connection.driver_class&quot;&gt;org.gjt.mm.mysql.Driver&lt;/property&gt;
+		&lt;property name=&quot;connection.url&quot;&gt;jdbc:mysql://localhost/register&lt;/property&gt;
+		&lt;property name=&quot;connection.username&quot;&gt;test&lt;/property&gt;
+		&lt;property name=&quot;connection.password&quot;&gt;test&lt;/property&gt;
+
+		&lt;!--SQLdialect--&gt;
+		&lt;property name=&quot;dialect&quot;&gt;org.hibernate.dialect.MySQLInnoDBDialect&lt;/property&gt;
+
+		&lt;!--EchoallexecutedSQLtostdout--&gt;
+		&lt;property name=&quot;show_sql&quot;&gt;true&lt;/property&gt;
+
+		&lt;property name=&quot;current_session_context_class&quot;&gt;thread&lt;/property&gt;
+
+		&lt;mapping resource=&quot;com/icesoft/icefaces/tutorial/crud/hibernate/Course.hbm.xml&quot;/&gt;
+		&lt;mapping resource=&quot;com/icesoft/icefaces/tutorial/crud/hibernate/Student.hbm.xml&quot;/&gt;
+
+	&lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+This file needs to be named Hibernate.cfg.xml and must be placed in the root source directory.</pre>
+</blockquote>
+<ol start="4">
+  <li>Create a HibernateUtil helper class </li>
+</ol>
+<p>The HibernateUtil class instantiates a new Hibernate session so that other classes can use Hibernate to retrieve persistent objects.</p>
+<blockquote>
+  <pre>
+package com.icesoft.icefaces.tutorial.crud.hibernate.util;
+
+
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+
+public class HibernateUtil {
+    
+    private static final SessionFactory sessionFactory;
+
+    static {
+        try {
+            // Create the SessionFactory from hibernate.cfg.xml
+            sessionFactory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            // Make sure you log the exception, as it might be swallowed
+            System.err.println("Initial SessionFactory creation failed." + ex);
+           throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+}
+</pre>
+</blockquote>
+<ol start="5">
+  <li>Create a class to use the persistence object(s)</li>
+</ol>
+<p>The following snippet of code retrieves a student object from the database.</p>
+<blockquote>
+  <pre>
+	Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	session.beginTransaction();
+	Student s = (Student) session.get(Student.class, 123l);
+	session.getTransaction().commit();
+	session.close();
+</pre>
+</blockquote>
+<p>This snippet of code retrieves the student with the id 123 from the database. Hibernate actually generates the SQL that is required for the objects and then maps the results to the data fields. </p>
+<hr />
+<p>Sources:</p>
+<p>Ambler, Scott W.  &quot;Mapping  Objects to Relational Databases: O/R Mapping in Detail.&quot; <u>Agile Data.</u> 8 April 2009 &lt;http://www.agiledata.org/essays/mappingObjects.html&gt;.</p>
+<p>Elliott, James.  &quot;What is Hibernate.&quot; 21 September 2005. <u>O'Reilly On Java.</u> 14  April 2009  &lt;http://www.onjava.com/pub/a/onjava/2005/09/21/what-is-hibernate.html&gt;.</p>
+<p>Hibernate. &quot;The  First Hibernate Application.&quot; <u>Introduction to Hibernate.</u> 12 April  2009 &lt;http://www.hibernate.org/hib_docs/v3/reference/en-US/html/tutorial-firstapp.html&gt;.</p>
+<p>ICEsoft Technologies  Inc. &quot;Hibernate Tutorial.&quot; 2006. <u>ICEfaces Tutorial.</u> 14 April  2009  &lt;http://facestutorials.icefaces.org/tutorial/hibernate-tutorial.html&gt;.</p>
+</body>
+</html>

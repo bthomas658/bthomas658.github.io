@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<h1>Refresh of Web Programming </h1>
+<hr />
+<p>Web Programming consists of the technologies for creating web pages and is the basis of creating web-based applications. </p>
+<h3>Languages</h3>
+<p>The technologies and languages come in a few different categories and these languages must work together for the web application to be successful. </p>
+<ul>
+  <li>Visual and Markup </li>
+  <ul>
+    <li>(X)HTML</li>
+    <li>CSS</li>
+    <li>XML</li>
+  </ul>
+  <li>Client Side Languages
+    <ul>
+      <li>JavaScript </li>
+      <li>AJAX (mixture of Javascript and XML)  </li>
+    </ul>
+  </li>
+  <li>Server Side Languages
+    <ul>
+      <li>PHP/Perl/Python</li>
+      <li>ASP.Net</li>
+      <li>Java EE</li>
+      <li>Many more  </li>
+    </ul>
+  </li>
+</ul>
+<h3>What does an HTTP request and response look like?</h3>
+<p>Every interaction with a web-based application comes in the form of an HTTP request. These requests are accepted by a web server and a response is generated with the contents of the HTML/XML for the client. The following is a sample request and response for a request to www.google.com </p>
+<p><strong>HTTP Request </strong></p>
+<p>GET / HTTP/1.1<br />
+  User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.6) Gecko/2009011913 Firefox/3.0.6<br />
+  Host: www.google.com<br />
+  Accept: */*<br />
+</p>
+<p><strong>HTTP Response</strong></p>
+<p>HTTP/1.1 200 OK<br />
+  Cache-Control: private, max-age=0<br />
+  Date: Tue, 17 Feb 2009 05:29:21 GMT<br />
+  Expires: -1<br />
+  Content-Type: text/html; charset=UTF-8<br />
+  Set-Cookie:  PREF=ID=049714b659131a8c:TM=1234848561:LM=1234848561:S=YVk4UjhXBSerd2pT;  expires=Thu, 17-Feb-2011 05:29:21 GMT; path=/; domain=.google.com<br />
+  Server: gws<br />
+Transfer-Encoding: chunked </p>
+<p>(The sample request was generated from www.httpviewer.net) </p>
+<h3>How to handle state in a web-based application?</h3>
+<p>State is held in every type of application when there is user interaction. The only problem is that the HTTP protocol is a stateless protocol, which means that it is impossible to maintain state in the protocol. There are a few ways of maintaining state in a web application such as using cookies, sessions, and postbacks.</p>
+<h4>Cookies</h4>
+<p>Cookies are text files that are stored on the client's computer. These files hold the variables that are required for state to be maintained. One downside to this method of maintaining state is that users can disable cookies as a security measure. Cookies have been used in the past as a way of tracking what web pages a user visits. </p>
+<h4>Sessions</h4>
+<p>Sessions are similar to cookies, but the information is stored on the server. Users are identified by a unique identifier which comes from their browser and the session information could be stored in a few places on the web server. These sessions can be stored in files on the webserver, in a database, or in the web server's memory. Sessions are better than cookies because they are stored on the server side and cannot be tampered with by malicious software and users.</p>
+<h4>Post Backs</h4>
+<p>Sessions and cookies are used to maintain state on the server and client machines, respectively. The last option is where all of the state information is passed between requests. The state information is placed in a form that is submitted whenever a user tries to go to another web page. This method has some benefits when cookies and sessions cannot be utilized. </p>
+</body>
+
+</html>
