@@ -1,0 +1,342 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+
+<!-- base href="http://www.datamodel.org.wstub.archive.org/NormalizationRules.html" -->
+
+<meta name="keywords" content="Normalization Rules, Rules of Normalization, Data Normalization, 5 rules, rules of data normalization">
+<meta name="author" content="Michael F. Nicewarner">
+<meta name="description" content="Rules of Data Normalization Page">
+<title>Rules of Data Normalization</title>
+<script charset="utf-8" id="injection_graph_func" src="NormalizationRules_files/injection_graph_func.js"></script></head><body leftmargin="30" background="NormalizationRules_files/OpalBackground.gif">
+
+<h1 align="center"><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/index.html" target="_top">
+<img src="NormalizationRules_files/DataModel1.gif" alt="DataModel1.gif (5854 bytes)" width="296" align="left" border="0" height="65" hspace="15"></a>
+Rules of Data Normalization</h1>
+
+<hr>
+
+<table width="100%" border="0" cellpadding="3" cellspacing="0">
+<tbody><tr valign="top" align="left">
+	<th>1NF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#one">Eliminate Repeating Groups</a> - Make a separate table for each set of
+    related attributes, and give each table a primary key.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>2NF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#two">Eliminate Redundant Data</a> - If an attribute depends on only part of a
+    multi-valued key, remove it to a separate table.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>3NF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#three">Eliminate Columns Not Dependent On Key</a> - If attributes do not
+    contribute to a description of the key, remove them to a separate table.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>BCNF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#bcnf">Boyce-Codd Normal Form</a> - If there are non-trivial dependencies between candidate key
+	attributes, separate them out into distinct tables.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>4NF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#four">Isolate Independent Multiple Relationships</a> - No table may contain
+    two or more 1:n or n:m relationships that are not directly related.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>5NF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#five">Isolate Semantically Related Multiple Relationships</a> - There may be
+    practical constrains on information that justify separating logically related many-to-many
+    relationships.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>ONF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#onf">Optimal Normal Form</a> - a model limited to only simple (elemental)
+  	facts, as expressed in Object Role Model notation.</td>
+</tr>
+<tr valign="top" align="left">
+	<th>DKNF</th>
+	<td><a href="http://web.archive.org/web/20080805014412/http://www.datamodel.org/NormalizationRules.html#dknf">Domain-Key Normal Form</a> - a model free from all modification anomalies.</td>
+</tr>
+</tbody></table>
+
+<table bgcolor="silver" border="1" cellpadding="0" cellspacing="0">
+<tbody><tr><th>Important Note!<br>
+All normal forms are additive, in that if a model is in 3rd normal form, it is by definition
+also in 2nd and 1st.</th></tr>
+</tbody></table>
+
+<hr>
+
+<p><strong>1. Eliminate Repeating Groups</strong></p>
+
+<p>In the original member list, each member name is followed by any databases that the
+member has experience with. Some might know many, and others might not know any. To answer
+the question, "Who knows DB2?" we need to perform an awkward scan of the list
+looking for references to DB2. This is inefficient and an extremely untidy way to store
+information.</p>
+
+<p>Moving the known databases into a seperate table helps a lot. Separating the repeating
+groups of databases from the member information results in <b>first normal form</b>. The
+MemberID in the database table matches the primary key in the member table, providing a
+foreign key for relating the two tables with a join operation. Now we can answer the
+question by looking in the database table for "DB2" and getting the list of
+members.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule1.gif" alt="Rule1.gif" border="0"></p>
+
+<hr>
+
+<p><strong><a name="two"></a>2. Eliminate Redundant Data</strong></p>
+
+<p>In the Database Table, the primary key is made up of the MemberID and the DatabaseID.
+This makes sense for other attributes like "Where Learned" and "Skill Level" attributes,
+since they will be different for every member/database combination. But the database name
+depends only on the DatabaseID. The same database name will appear redundantly every time
+its associated ID appears in the Database Table.</p>
+
+<p>Suppose you want to reclassify a database - give it a different DatabaseID. The change
+has to be made for every member that lists that database! If you miss some, you'll have
+several members with the same database under different IDs. This is an update anomaly.</p>
+
+<p>Or suppose the last member listing a particular database leaves the group. His records
+will be removed from the system, and the database will not be stored anywhere! This is a
+delete anomaly. To avoid these problems, we need <b>second normal form</b>.</p>
+
+<p>To achieve this, separate the attributes depending on both parts of the key from those
+depending only on the DatabaseID. This results in two tables: "Database" which
+gives the name for each DatabaseID, and "MemberDatabase" which lists the
+databases for each member.</p>
+
+<p>Now we can reclassify a database in a single operation: look up the DatabaseID in the
+"Database" table and change its name. The result will instantly be available
+throughout the application.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule2.gif" alt="Rule2.gif (8304 bytes)" border="0"></p>
+
+<hr>
+
+<p><strong><a name="three"></a>3. Eliminate Columns Not Dependent On Key</strong></p>
+
+<p>The Member table satisfies first normal form - it contains no repeating groups. It
+satisfies second normal form - since it doesn't have a multivalued key. But the key is
+MemberID, and the company name and location describe only a company, not a member. To
+achieve third normal form, they must be moved into a separate table. Since they describe a
+company, CompanyCode becomes the key of the new "Company" table.</p>
+
+<p>The motivation for this is the same for second normal form: we want to avoid update and
+delete anomalies. For example, suppose no members from the IBM were currently stored in
+the database. With the previous design, there would be no record of its existence, even
+though 20 past members were from IBM!</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule3.gif" alt="Rule3.gif (7696 bytes)" border="0"></p>
+
+<hr>
+
+<p><strong><a name="bcnf"></a>BCNF. Boyce-Codd Normal Form</strong></p>
+
+<p>Boyce-Codd Normal Form states mathematically that:<br>
+A relation R is said to be in BCNF if whenever X -&gt; A holds in R, and A is not in X, then X is a
+candidate key for R.<br>
+BCNF covers very specific situations where 3NF misses inter-dependencies between non-key (but candidate key)
+attributes.  Typically, any relation that is in 3NF is also in BCNF.  However, a 3NF relation won't be
+in BCNF if (a) there are multiple candidate keys, (b) the keys are composed of multiple attributes, and (c)
+there are common attributes between the keys.
+</p>
+
+<p>Basically, a humorous way to remember BCNF is that all functional dependencies are:<br>
+"The key, the whole key, and nothing but the key, so help me Codd."
+</p>
+
+<hr>
+
+<p><strong><a name="four"></a>4. Isolate Independent Multiple Relationships </strong></p>
+
+<p>This applies primarily to key-only associative tables, and appears as a ternary
+relationship, but has incorrectly merged 2 distinct, independent relationships.</p>
+
+<p>The way this situation starts is by a business request list the one shown below.  This
+could be any 2 M:M relationships from a single entity.  For instance, a member could know
+many software tools, and a software tool may be used by many members.  Also, a member could
+have recommended many books, and a book could be recommended by many members.<br>
+
+</p><p align="center"><img src="NormalizationRules_files/Rule4a.jpg" alt="Rule4a.jpg" border="0"><br>
+Initial business request</p>
+
+<p>So, to resolve the two M:M relationships, we know that we should resolve them separately,
+and that would give us 4th normal form.  But, if we were to combine them into a single table,
+it might look right (it is in 3rd normal form) at first.  This is shown below, and violates
+4th normal form.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule4b.jpg" alt="Rule4b.jpg" border="0"><br>
+Incorrect solution</p>
+
+<p>To get a picture of what is wrong, look at some sample data, shown below.  The first few
+records look right, where Bill knows ERWin and recommends the ERWin Bible for everyone to
+read.  But something is wrong with Mary and Steve.  Mary didn't recommend a book, and Steve
+Doesn't know any software tools.  Our solution has forced us to do strange things like
+create dummy records in both Book and Software to allow the record in the association, since
+it is key only table.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule4c.jpg" alt="Rule4c.jpg" border="0"><br>
+Sample data from incorrect solution</p>
+
+<p>The correct solution, to cause the model to be in 4th normal form, is to ensure that all
+M:M relationships are resolved independently if they are indeed independent, as shown below.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule4d.jpg" alt="Rule4d.jpg" border="0"><br>
+Correct 4th normal form</p>
+
+<p><b>NOTE!</b>  This is not to say that ALL ternary associations are invalid.  The above
+situation made it obvious that Books and Software were independently linked to Members.
+If, however, there were distinct links between all three, such that we would be stating that
+"Bill recommends the ERWin Bible as a reference for ERWin", then separating the
+relationship into two separate associations would be incorrect.  In that case, we would lose
+the distinct information about the 3-way relationship.</p>
+
+<hr>
+
+<p><strong><a name="five"></a>5. Isolate Semantically Related Multiple Relationships </strong></p>
+
+<p>OK, now lets modify the original business diagram and add a link between the books and the
+software tools, indicating which books deal with which software tools, as shown below.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule5a.jpg" alt="Rule5a.jpg" border="0"><br>
+Initial business request</p>
+
+<p>This makes sense after the discussion on Rule 4, and again we may be tempted to resolve the
+multiple M:M relationships into a single association, which would now violate 5th normal form.
+The ternary association looks identical to the one shown in the 4th normal form example, and
+is also going to have trouble displaying the information correctly.  This time we would have
+even more trouble because we can't show the relationships between books and software unless we
+have a member to link to, or we have to add our favorite dummy member record to allow the
+record in the association table.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule5b.jpg" alt="Rule5b.jpg" border="0"><br>
+Incorrect solution</p>
+
+<p>The solution, as before, is to ensure that all M:M relationships that are independent are
+resolved independently, resulting in the model shown below.  Now information about members
+and books, members and software, and books and software are all stored independently, even
+though they are all very much semantically related.  It is very tempting in many situations
+to combine the multiple M:M relationships because they are so similar.  Within complex
+business discussions, the lines can become blurred and the correct solution not so obvious.</p>
+
+<p align="center"><img src="NormalizationRules_files/Rule5c.jpg" alt="Rule5c.jpg" border="0"><br>
+Correct 5th normal form</p>
+
+<hr>
+
+<p><strong><a name="onf"></a>6. Optimal Normal Form</strong></p>
+
+<p>At this point, we have done all we can with Entity-Relationship Diagrams (ERD).  Most
+people will stop here because this is usually pretty good.  However, another modeling style
+called Object Role Modeling (ORM) can display relationships that cannot be expressed in ERD.
+Therefore there are more normal forms beyond 5th.  With Optimal Normal Form (OMF)<br>
+It is defined as a model limited to only simple (elemental) facts, as expressed in ORM.</p>
+
+<hr>
+
+<p><strong><a name="dknf"></a>7. Domain-Key Normal Form</strong></p>
+
+<p>This level of normalization is simply a model taken to the point where there are no
+opportunities for modification anomalies.</p>
+<li> "if every constraint on the relation is a logical consequence of the definition of
+keys and domains"
+</li><li> Constraint "a rule governing static values of attributes"
+</li><li> Key "unique identifier of a tuple"
+</li><li> Domain "description of an attribute&#8217;s allowed values"
+<ol>
+<li>A relation in DK/NF has no modification anomalies, and conversely.
+</li><li>DK/NF is the ultimate normal form; there is no higher normal form related to modification
+anomalies
+</li><li>Defn: A relation is in DK/NF if every constraint on the relation is a logical consequence
+of the definition of keys and domains.
+</li><li>Constraint is any rule governing static values of attributes that is precise enough to be
+ascertained whether or not it is true
+</li><li>E.g. edit rules, intra-relation and inter-relation constraints, functional and
+multi-valued dependencies.
+</li><li>Not including constraints on changes in data values or time-dependent constraints.
+</li><li>Key - the unique identifier of a tuple.
+</li><li>Domain: physical and a logical description of an attributes allowed values.
+</li><li>Physical description is the format of an attribute.
+</li><li>Logical description is a further restriction of the values the domain is allowed
+</li><li>Logical consequence: find a constraint on keys and/or domains which, if it is enforced,
+means that the desired constraint is also enforced.
+</li><li>Bottom line on DK/NF: If every table has a single theme, then all functional dependencies
+will be logical consequences of keys. All data value constraints can them be expressed as
+domain constraints.
+</li><li>Practical consequence: Since keys are enforced by the DBMS and domains are enforced by
+edit checks on data input, all modification anomalies can be avoided by just these two simple
+measures.
+</li></ol>
+
+<hr>
+
+<p>
+Visitors on this page: [an error occurred while processing this directive]<br>
+Last Updated: [an error occurred while processing this directive]
+</p>
+<script language="Javascript">
+<!--
+
+// FILE ARCHIVED ON 20080805014412 AND RETRIEVED FROM THE
+// INTERNET ARCHIVE ON 20091104190556.
+// JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+// ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+// SECTION 108(a)(3)).
+
+   var sWayBackCGI = "http://web.archive.org/web/20080805014412/";
+
+   function xResolveUrl(url) {
+      var image = new Image();
+      image.src = url;
+      return image.src;
+   }
+   function xLateUrl(aCollection, sProp) {
+      var i = 0;
+      for(i = 0; i < aCollection.length; i++) {
+         var url = aCollection[i][sProp];         if (typeof(url) == "string") { 
+          if (url.indexOf("mailto:") == -1 &&
+             url.indexOf("javascript:") == -1
+             && url.length > 0) {
+            if(url.indexOf("http") != 0) {
+                url = xResolveUrl(url);
+            }
+            url = url.replace('.wstub.archive.org','');
+            aCollection[i][sProp] = sWayBackCGI + url;
+         }
+         }
+      }
+   }
+
+   xLateUrl(document.getElementsByTagName("IMG"),"src");
+   xLateUrl(document.getElementsByTagName("A"),"href");
+   xLateUrl(document.getElementsByTagName("AREA"),"href");
+   xLateUrl(document.getElementsByTagName("OBJECT"),"codebase");
+   xLateUrl(document.getElementsByTagName("OBJECT"),"data");
+   xLateUrl(document.getElementsByTagName("APPLET"),"codebase");
+   xLateUrl(document.getElementsByTagName("APPLET"),"archive");
+   xLateUrl(document.getElementsByTagName("EMBED"),"src");
+   xLateUrl(document.getElementsByTagName("BODY"),"background");
+   xLateUrl(document.getElementsByTagName("TD"),"background");
+   xLateUrl(document.getElementsByTagName("INPUT"),"src");
+   var forms = document.getElementsByTagName("FORM");
+   if (forms) {
+       var j = 0;
+       for (j = 0; j < forms.length; j++) {
+              f = forms[j];
+              if (typeof(f.action)  == "string") {
+                 if(typeof(f.method)  == "string") {
+                     if(typeof(f.method) != "post") {
+                        f.action = sWayBackCGI + f.action;
+                     }
+                  }
+              }
+        }
+    }
+
+
+//-->
+</script>
+
+</li></body></html>
